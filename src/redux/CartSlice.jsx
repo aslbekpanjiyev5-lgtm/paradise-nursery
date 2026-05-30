@@ -1,36 +1,96 @@
-import { createSlice } from "@reduxjs/toolkit";
+import React, { useState } from "react";
 
-const initialState = {
-  items: [],
-};
+function CartItem() {
+  const [quantity, setQuantity] =
+    useState(1);
 
-const cartSlice = createSlice({
-  name: "cart",
-  initialState,
-  reducers: {
-    addItem: (state, action) => {
-      state.items.push(action.payload);
-    },
+  const unitPrice = 25;
 
-    removeItem: (state, action) => {
-      state.items = state.items.filter(
-        (item) => item.id !== action.payload
-      );
-    },
+  const totalCost =
+    quantity * unitPrice;
 
-    updateQuantity: (state, action) => {
-      const item = state.items.find(
-        (item) => item.id === action.payload.id
-      );
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
 
-      if (item) {
-        item.quantity = action.payload.quantity;
-      }
-    },
-  },
-});
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
 
-export const { addItem, removeItem, updateQuantity } =
-  cartSlice.actions;
+  return (
+    <div
+      style={{
+        border: "1px solid white",
+        padding: "20px",
+        marginTop: "30px",
+      }}
+    >
+      <h1>Shopping Cart</h1>
 
-export default cartSlice.reducer;
+      <img
+        src="https://images.unsplash.com/photo-1545241047-6083a3684587"
+        alt="Snake Plant"
+        width="200"
+      />
+
+      <h2>Snake Plant</h2>
+
+      <p>
+        Unit Price: ${unitPrice}
+      </p>
+
+      <p>
+        Quantity: {quantity}
+      </p>
+
+      <p>
+        Total Cost: ${totalCost}
+      </p>
+
+      <div>
+        <button
+          onClick={
+            decreaseQuantity
+          }
+        >
+          -
+        </button>
+
+        <button
+          onClick={
+            increaseQuantity
+          }
+        >
+          +
+        </button>
+      </div>
+
+      <br />
+
+      <button>
+        Delete Item
+      </button>
+
+      <h2>
+        Total Cart Amount:
+        ${totalCost}
+      </h2>
+
+      <button>
+        Continue Shopping
+      </button>
+
+      <button
+        style={{
+          marginLeft: "10px",
+        }}
+      >
+        Checkout
+      </button>
+    </div>
+  );
+}
+
+export default CartItem;
